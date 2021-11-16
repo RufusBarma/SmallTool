@@ -64,3 +64,13 @@
     padding-right:0;
     padding-left:0;
 }
+
+.actual-status
+{
+  color: #3db900;
+}
+
+.outdated-status
+{
+  color: #e0a800;
+}
