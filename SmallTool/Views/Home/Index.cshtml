@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@* <div class="text-center" xmlns="http://www.w3.org/1999/html"> *@
+@*     <h1 class="display-4">Welcome</h1> *@
+@*     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+@* </div> *@
+
+  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    <div class="col padding-0">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">Ветки</h4>
+      </div>
+      <div class="list-group list-group-checkable">
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios1" value="" checked>
+        <label class="list-group-item py-3" for="listGroupCheckableRadios1">
+          master <span style="color: #1c7430; ">(последняя версия)</span>
+          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
+        </label>
+
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios2" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios2">
+          Develop <span style="color: #ba8b00; ">(устаревшая версия)</span>
+          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
+        </label>
+
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios3" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios3">
+          CI <span>(новая ветка)</span>
+          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
+        </label>
+      </div>
+    </div>
+    <div class="col padding-0">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">Действия</h4>
+      </div>
+      <div class="list-group list-group-checkable">
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios1" value="" checked>
+        <label class="list-group-item py-3" for="listGroupCheckableRadios1">
+          Обновить и запустить DemoGames
+          <span class="d-block small opacity-50">With support text underneath to add more detail</span>
+        </label>
+
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios2" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios2">
+          Обновить файлы DemoGames без запуска
+          <span class="d-block small opacity-50">Some other text goes here</span>
+        </label>
+
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios3" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios3">
+          Запустить DemoGames
+          <span class="d-block small opacity-50">And we end with another snippet of text</span>
+        </label>
+
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios4" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios4">
+          Открыть локальную папку с DemoGames в проводнике
+          <span class="d-block small opacity-50">D:\Files</span>
+        </label>
+        
+        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios4" value="">
+        <label class="list-group-item py-3" for="listGroupCheckableRadios4">
+          Открыть удаленную папку с DemoGames в проводнике
+          <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
+        </label>
+      </div>
+    </div>
+  </div>
