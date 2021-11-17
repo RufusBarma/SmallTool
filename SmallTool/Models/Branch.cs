@@ -10,6 +10,6 @@ namespace SmallTool.Models
         }
 
         public string Name { get; set; }
-        public List<Build> Builds { get; set; }
+        public List<Build> Builds { get; set; } = new();
     }
 }

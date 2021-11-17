@@ -4,6 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
+    <PackageReference Include="LanguageExt.Core" Version="4.0.3" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
     <PackageReference Include="Smart.Blazor" Version="10.2.2" />
   </ItemGroup>
   <ItemGroup>

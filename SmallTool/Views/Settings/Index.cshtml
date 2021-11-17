@@ -1,0 +1,17 @@
+@model dynamic
+
+@{
+    ViewBag.Title = "Settings";
+    Layout = "_Layout";
+}
+
+<h3>Установить пути</h3>
+<p>
+    <label>Локальный путь</label><br />
+    @Html.TextBox("LocalPath")
+    
+</p>
+<p>
+    <label>Удаленный путь</label><br />
+    @Html.TextBox("RemotePath")
+</p>

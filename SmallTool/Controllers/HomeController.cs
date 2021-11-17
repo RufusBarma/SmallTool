@@ -26,7 +26,7 @@ namespace SmallTool.Controllers
             return View(_branchHandler);
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

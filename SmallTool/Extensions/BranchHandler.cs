@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using LanguageExt;
 using Microsoft.Extensions.Configuration;
+using MoreLinq.Extensions;
 using SmallTool.Models;
 
 namespace SmallTool.Extensions
 {
     public class BranchHandler
     {
-        public ImmutableList<BranchTuple> BuildTuples { get; private set; }
-        public ImmutableList<Branch> RemoteBuilds { get; private set; }
-        public ImmutableList<Branch> LocalBuilds { get; private set; }
+        public ImmutableList<BranchTuple> BranchTuples { get; private set; }
+        public ImmutableList<Branch> RemoteBranches { get; private set; }
+        public ImmutableList<Branch> LocalBranches { get; private set; }
 
         private IConfiguration config;
         
@@ -25,22 +26,23 @@ namespace SmallTool.Extensions
         {
             var remotePath = config.GetSection("BuildRootDirectory")["RemoteDirectory"];
             var localPath = config.GetSection("BuildRootDirectory")["LocalDirectory"];
-            RemoteBuilds = GetBuildsInBranches(remotePath).ToImmutableList();
-            LocalBuilds = GetBuildsInBranches(localPath).ToImmutableList();
+            RemoteBranches = GetBuildsInBranches(remotePath).ToImmutableList();
+            LocalBranches = GetBuildsInBranches(localPath).ToImmutableList();
+            BranchTuples = CreateTuples(LocalBranches, RemoteBranches).ToImmutableList();
         }
 
         private IEnumerable<Branch> GetBuildsInBranches(string path)
         {
-            throw new NotImplementedException();
-            // return DirectoryAnalyzer.ScanFolder(path)
-            //     .GroupBy(b => b.BranchName)
-            //     .ToDictionary(b => b.Key, b => b.ToList());
+            return DirectoryAnalyzer.ScanFolder(path).Select(build => build.Branch).Distinct();
         }
 
-        private List<BranchTuple> CreateTuples(Dictionary<string, List<Build>> local,
-            Dictionary<string, List<Build>> remote)
+        private IEnumerable<BranchTuple> CreateTuples(IEnumerable<Branch> local, IEnumerable<Branch> remote)
         {
-            var tuples = new List<BranchTuple>();
+            var tuples = local.FullJoin(remote, 
+                pair => pair.Name, 
+                left => new BranchTuple(left, Option<Branch>.None), 
+                right => new BranchTuple(Option<Branch>.None, right),
+                (left, right) => new BranchTuple(left, right));
             return tuples;
         }
     }

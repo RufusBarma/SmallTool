@@ -1,8 +1,6 @@
+using LanguageExt;
+
 namespace SmallTool.Models
 {
-    public record BranchTuple
-    {
-        public Branch LocalBuild;
-        public Branch RemoteBuild;
-    }
+    public record BranchTuple(Option<Branch> LocalBuild, Option<Branch> RemoteBuild);
 }
