@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SmallTool.Extensions;
 using SmallTool.Models;
 
 namespace SmallTool.Controllers
@@ -12,15 +13,17 @@ namespace SmallTool.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly BranchHandler _branchHandler;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BranchHandler branchHandler)
         {
             _logger = logger;
+            _branchHandler = branchHandler;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_branchHandler);
         }
 
         public IActionResult Privacy()
