@@ -23,7 +23,7 @@ namespace SmallTool.Controllers
 
         public IActionResult Index()
         {
-            return View(_branchHandler);
+            return View(_branchHandler.BranchTuples);
         }
 
         public IActionResult About()

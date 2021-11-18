@@ -1,4 +1,4 @@
-﻿@model SmallTool.Extensions.BranchHandler
+﻿@model System.Collections.Immutable.ImmutableList<BranchTuple>
 @{
     ViewData["Title"] = "Builds";
 }
@@ -13,23 +13,36 @@
         <h4 class="my-0 fw-normal">Ветки</h4>
       </div>
       <div class="list-group list-group-checkable">
-        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios1" value="" checked>
-        <label class="list-group-item py-3" for="listGroupCheckableRadios1">
-          master <span class="actual-status">(последняя версия)</span>
-          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
-        </label>
-
-        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios2" value="">
-        <label class="list-group-item py-3" for="listGroupCheckableRadios2">
-          Develop <span class="outdated-status">(устаревшая версия)</span>
-          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
-        </label>
-
-        <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios3" value="">
-        <label class="list-group-item py-3" for="listGroupCheckableRadios3">
-          CI <span>(новая ветка)</span>
-          <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
-        </label>
+        @{
+          int i = 0;
+          var id = $"listGroupCheckableRadios{i}";
+          foreach (var branchTuple in Model)
+          {
+            <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked>
+            <label class="list-group-item py-3" for=@id>
+              @branchTuple.RemoteBuild.Match(branch => branch.Name, ()=>"Удалена на сервере") <span class="actual-status">(последняя версия)</span>
+              <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
+            </label>
+            i++;
+          }
+        }
+        @* <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios1" value="" checked> *@
+        @* <label class="list-group-item py-3" for="listGroupCheckableRadios1"> *@
+        @*   master <span class="actual-status">(последняя версия)</span> *@
+        @*   <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span> *@
+        @* </label> *@
+        @* *@
+        @* <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios2" value=""> *@
+        @* <label class="list-group-item py-3" for="listGroupCheckableRadios2"> *@
+        @*   Develop <span class="outdated-status">(устаревшая версия)</span> *@
+        @*   <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span> *@
+        @* </label> *@
+        @* *@
+        @* <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id="listGroupCheckableRadios3" value=""> *@
+        @* <label class="list-group-item py-3" for="listGroupCheckableRadios3"> *@
+        @*   CI <span>(новая ветка)</span> *@
+        @*   <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span> *@
+        @* </label> *@
       </div>
     </div>
     <div class="col-sm-6 padding-0">

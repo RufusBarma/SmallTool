@@ -9,14 +9,19 @@ namespace SmallTool.Extensions
     {
         public static IEnumerable<Build> ScanFolder(string rootPath)
         {
-            var braches = new Dictionary<string, Branch>();
+            var branches = new Dictionary<string, Branch>();
+            return ScanFolder(rootPath, branches);
+        }
+
+        private static IEnumerable<Build> ScanFolder(string rootPath, Dictionary<string, Branch> branches)
+        {
             var currentDirectory = new DirectoryInfo(rootPath);
             if (!currentDirectory.Exists) yield break;
             if (currentDirectory.GetFiles().Any(f => f.Name == "metaCI.txt"))
-                yield return ScanBuildFolder(rootPath, braches);
+                yield return ScanBuildFolder(rootPath, branches);
             else
             {
-                var builds = currentDirectory.GetDirectories().Select(x => x.FullName).SelectMany(ScanFolder);
+                var builds = currentDirectory.GetDirectories().Select(x => x.FullName).SelectMany(x=>ScanFolder(x, branches));
                 foreach (var build in builds)
                     yield return build;
             }
