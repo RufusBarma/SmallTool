@@ -15,13 +15,13 @@
       <div class="list-group list-group-checkable">
         @{
           int i = 0;
-          var id = $"listGroupCheckableRadios{i}";
           foreach (var branchTuple in Model)
           {
+            var id = $"listGroupCheckableRadios{i}";
             <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked>
             <label class="list-group-item py-3" for=@id>
-              @branchTuple.RemoteBuild.Match(branch => branch.Name, ()=>"Удалена на сервере") <span class="actual-status">(последняя версия)</span>
-              <span class="d-block small opacity-50">Хеш ca4e62 от 16.11.2021 в 17:10</span>
+              @branchTuple.GetName().Match(name => name, ()=>"Ручная сборка или без меты") <span class="actual-status">(@branchTuple.GetStatus().GetString())</span>
+              <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
             </label>
             i++;
           }
