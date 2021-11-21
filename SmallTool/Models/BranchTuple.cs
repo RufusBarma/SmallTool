@@ -1,8 +1,12 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using LanguageExt;
 using LanguageExt.SomeHelp;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SmallTool.Models;
 
 namespace SmallTool.Models
 {
@@ -19,14 +23,33 @@ namespace SmallTool.Models
     
     public static class BranchTupleExtension
     {
-        public static HtmlString GetColorString(this BranchStatus status)
+        public static string GetString(this TagBuilder builder)
         {
-            throw new NotImplementedException();
+            using var writer = new StringWriter();
+            builder.WriteTo(writer, HtmlEncoder.Default);
+            return writer.ToString();
+        }
+        
+        public static HtmlString CreateStatus(this IHtmlHelper html, BranchStatus status)
+        {
+            Option<string> cssClass = status switch
+            {
+                BranchStatus.Manual => ".manual-status",
+                BranchStatus.Actual => ".actual-status",
+                BranchStatus.Outdated => ".outdated-status",
+                BranchStatus.Deleted => ".deleted-status",
+                BranchStatus.New => ".new-status",
+                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+            };
+            var span = new TagBuilder("span");
+            span.InnerHtml.Append(status.GetString());
+            cssClass.IfSome(value => span.Attributes.Add("class", value));
+            return new HtmlString(span.GetString());
         }
         
         public static string GetString(this BranchStatus status) => status switch
             {
-                BranchStatus.Manual => "ручаня сборка",
+                BranchStatus.Manual => "ручная сборка",
                 BranchStatus.Actual => "последняя версия",
                 BranchStatus.Outdated => "устаревшая версия",
                 BranchStatus.Deleted => "удалена на сервере",
@@ -35,6 +58,7 @@ namespace SmallTool.Models
             };
         
         public static Build GetFresh(this Branch branch) => branch.Builds.OrderBy(b => b.CreatedTime).First();
+        
         public static BranchStatus GetStatus(this BranchTuple tuple) =>
             tuple.LocalBuild.Match(
                 local => tuple.RemoteBuild.Match(remote =>

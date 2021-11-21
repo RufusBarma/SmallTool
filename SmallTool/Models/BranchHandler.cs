@@ -4,9 +4,9 @@ using System.Linq;
 using LanguageExt;
 using Microsoft.Extensions.Configuration;
 using MoreLinq.Extensions;
-using SmallTool.Models;
+using SmallTool.Extensions;
 
-namespace SmallTool.Extensions
+namespace SmallTool.Models
 {
     public class BranchHandler
     {
