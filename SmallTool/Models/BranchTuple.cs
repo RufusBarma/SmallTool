@@ -3,10 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using LanguageExt;
-using LanguageExt.SomeHelp;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SmallTool.Models;
 
 namespace SmallTool.Models
 {
@@ -34,11 +32,11 @@ namespace SmallTool.Models
         {
             Option<string> cssClass = status switch
             {
-                BranchStatus.Manual => ".manual-status",
-                BranchStatus.Actual => ".actual-status",
-                BranchStatus.Outdated => ".outdated-status",
-                BranchStatus.Deleted => ".deleted-status",
-                BranchStatus.New => ".new-status",
+                BranchStatus.Manual => "manual-status",
+                BranchStatus.Actual => "actual-status",
+                BranchStatus.Outdated => "outdated-status",
+                BranchStatus.Deleted => "deleted-status",
+                BranchStatus.New => "new-status",
                 _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
             };
             var span = new TagBuilder("span");
@@ -51,9 +49,9 @@ namespace SmallTool.Models
             {
                 BranchStatus.Manual => "ручная сборка",
                 BranchStatus.Actual => "последняя версия",
-                BranchStatus.Outdated => "устаревшая версия",
+                BranchStatus.Outdated => "есть обновления",
                 BranchStatus.Deleted => "удалена на сервере",
-                BranchStatus.New => "есть обновления",
+                BranchStatus.New => "новая ветка",
                 _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
             };
         

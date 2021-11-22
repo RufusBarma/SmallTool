@@ -74,3 +74,15 @@
 {
   color: #e0a800;
 }
+.manual-status
+{
+  
+}
+.deleted-status
+{
+  color: #dc0c1f;
+}
+.new-status
+{
+  color: #007bff;
+}

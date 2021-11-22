@@ -20,7 +20,7 @@
             var id = $"listGroupCheckableRadios{i}";
             <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked>
             <label class="list-group-item py-3" for=@id>
-              @branchTuple.GetName().Match(name => name, ()=>"Ручная сборка или без меты") <span class="actual-status">(@branchTuple.GetStatus().GetString())</span>
+              @branchTuple.GetName().Match(name => name, ()=>"Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
               <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
             </label>
             i++;
@@ -48,6 +48,9 @@
       <button type="button" class="btn btn-block">
         Открыть удаленную папку с DemoGames в проводнике
         <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
+      </button>
+      <button type="button" class="btn btn-block">
+        Удалить локально
       </button>
     </div>
   </div>
