@@ -36,7 +36,7 @@ namespace SmallTool.Extensions
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
         };
         
-        public static Build GetFresh(this Branch branch) => branch.Builds.OrderBy(b => b.CreatedTime).First();
+        public static Build GetFresh(this Branch branch) => branch.Builds.OrderBy(b => b.CreatedTime).FirstOrDefault();
         
         public static BranchStatus GetStatus(this BranchTuple tuple) =>
             tuple.LocalBuild.Match(
