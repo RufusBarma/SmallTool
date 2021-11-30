@@ -32,25 +32,44 @@
       <div class="card-header py-3">
         <h4 class="my-0 fw-normal">Действия</h4>
       </div>
-      <button type="button" class="btn btn-outline-success btn-block">
-        Обновить и запустить DemoGames
-      </button>
-      <button type="button" class="btn btn-block">
-        Обновить файлы DemoGames без запуска
-      </button>
-      <button type="button" class="btn btn-block">
-        Запустить DemoGames
-      </button>
-      <button type="button" class="btn btn-block">
-        Открыть локальную папку с DemoGames в проводнике
-        <span class="d-block small opacity-50">D:\Files</span>
-      </button>
-      <button type="button" class="btn btn-block">
-        Открыть удаленную папку с DemoGames в проводнике
-        <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
-      </button>
-      <button type="button" class="btn btn-block">
-        Удалить локально
-      </button>
+      <div id="buttonsList">
+        <button type="button" class="btn btn-outline-success btn-block">
+          Обновить и запустить DemoGames
+        </button>
+        <button type="button" class="btn btn-block">
+          Обновить файлы DemoGames без запуска
+        </button>
+        <button type="button" class="btn btn-block">
+          Запустить DemoGames
+        </button>
+        <button type="button" class="btn btn-block">
+          Открыть локальную папку с DemoGames в проводнике
+          <span class="d-block small opacity-50">D:\Files</span>
+        </button>
+        <button type="button" class="btn btn-block">
+          Открыть удаленную папку с DemoGames в проводнике
+          <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
+        </button>
+        <button type="button" class="btn btn-block">
+          Удалить локально
+        </button>
+      </div>
     </div>
   </div>
+  <button class="btn btn-primary" onclick="showDialog()">Click me</button>
+  <button class="btn btn-primary" onclick="clearButtons()">Cclear buttons</button>
+
+<script>
+  async function showDialog(){
+      await fetch("/api/Branch/", {method: 'POST'});
+  }
+  
+  function clearButtons(){
+      let list = document.getElementById("buttonsList");
+      let child = list.lastElementChild; 
+        while (child) {
+            list.removeChild(child);
+            child = list.lastElementChild;
+        }
+  }
+</script>

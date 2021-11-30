@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SmallTool.Extensions;
 using SmallTool.Models;
 
 namespace SmallTool.Controllers
@@ -31,6 +28,11 @@ namespace SmallTool.Controllers
             return View();
         }
 
+        public JsonResult GetBranchTuples()
+        {
+            return Json(_branchHandler.BranchTuples, new JsonSerializerOptions{ReferenceHandler = ReferenceHandler.Preserve});
+        }
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
