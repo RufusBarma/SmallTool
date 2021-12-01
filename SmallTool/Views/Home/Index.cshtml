@@ -17,10 +17,10 @@
           int i = 0;
           foreach (var branchTuple in Model)
           {
-            var id = $"listGroupCheckableRadios{i}";
+            var id = $"radio_{branchTuple.GetName().IfNone("None")}";
             <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked>
             <label class="list-group-item py-3" for=@id>
-              @branchTuple.GetName().Match(name => name, ()=>"Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
+              @branchTuple.GetName().IfNone("Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
               <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
             </label>
             i++;
@@ -58,6 +58,7 @@
   </div>
   <button class="btn btn-primary" onclick="showDialog()">Click me</button>
   <button class="btn btn-primary" onclick="clearButtons()">Cclear buttons</button>
+  <button class="btn btn-primary" onclick="getCheckedRadioName()">Log checked</button>
 
 <script>
   async function showDialog(){
@@ -71,5 +72,10 @@
             list.removeChild(child);
             child = list.lastElementChild;
         }
+  }
+  
+  function getCheckedRadioName(){
+    let id = document.querySelector('input[name="listGroupCheckableRadios"]:checked').id.replace("radio_", "");
+    console.log(id);
   }
 </script>
