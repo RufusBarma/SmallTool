@@ -33,24 +33,24 @@
         <h4 class="my-0 fw-normal">Действия</h4>
       </div>
       <div id="buttonsList">
-        <button type="button" class="btn btn-outline-success btn-block">
+        <button type="button" class="btn btn-outline-success btn-block" onclick="executeCommand('FetchRunCommand')">
           Обновить и запустить DemoGames
         </button>
-        <button type="button" class="btn btn-block">
+        <button type="button" class="btn btn-block" onclick="executeCommand('FetchCommand')">
           Обновить файлы DemoGames без запуска
         </button>
-        <button type="button" class="btn btn-block">
+        <button type="button" class="btn btn-block" onclick="executeCommand('RunCommand')">
           Запустить DemoGames
         </button>
-        <button type="button" class="btn btn-block">
+        <button type="button" class="btn btn-block" onclick="executeCommand('LocalOpenFolderCommand')">
           Открыть локальную папку с DemoGames в проводнике
           <span class="d-block small opacity-50">D:\Files</span>
         </button>
-        <button type="button" class="btn btn-block">
+        <button type="button" class="btn btn-block" onclick="executeCommand('RemoteOpenFolderCommand')">
           Открыть удаленную папку с DemoGames в проводнике
           <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
         </button>
-        <button type="button" class="btn btn-block">
+        <button type="button" class="btn btn-block" onclick="executeCommand('DeleteCommand')">
           Удалить локально
         </button>
       </div>
@@ -77,5 +77,20 @@
   function getCheckedRadioName(){
     let id = document.querySelector('input[name="listGroupCheckableRadios"]:checked').id.replace("radio_", "");
     console.log(id);
+  }
+  
+  async function executeCommand(commandName){
+    let commandBody = {
+      command: "commandName",
+      branch: "NotImpl"
+    };
+    await fetch("/Command/Execute", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(commandBody)
+    });
   }
 </script>
