@@ -2,7 +2,6 @@ using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -69,11 +68,12 @@ namespace SmallTool
             {
                 Width = 1152,
                 Height = 940,
-                Show = false
+                Show = false,
+                WebPreferences = new WebPreferences {NodeIntegration = false, ContextIsolation = false, EnableRemoteModule = true}
             });
 
             await browserWindow.WebContents.Session.ClearCacheAsync();
-
+            browserWindow.WebContents.OpenDevTools();
             browserWindow.OnClosed += () => Electron.App.Quit();
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("Electron.NET API Demos");
