@@ -56,7 +56,7 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" onclick="showDialog()">Click me</button>
+  <button class="btn btn-primary" onclick="showDialog()">Click me please</button>
   <button class="btn btn-primary" onclick="clearButtons()">Cclear buttons</button>
   <button class="btn btn-primary" onclick="getCheckedRadioName()">Log checked</button>
 
@@ -76,21 +76,11 @@
   
   function getCheckedRadioName(){
     let id = document.querySelector('input[name="listGroupCheckableRadios"]:checked').id.replace("radio_", "");
-    console.log(id);
+    return id;
   }
   
   async function executeCommand(commandName){
-    let commandBody = {
-      command: "commandName",
-      branch: "NotImpl"
-    };
-    await fetch("/Command/Execute", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(commandBody)
-    });
+    let url = "/Command/Execute?" + $.param({command: commandName, branch: getCheckedRadioName()});
+    await fetch(url, {method: 'POST'});
   }
 </script>

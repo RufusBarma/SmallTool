@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +21,13 @@ namespace SmallTool.Controllers
                 {"RunCommand", new RunCommand()},
                 {"DeleteCommand", new DeleteCommand()},
                 {"FetchCommand", new FetchCommand()},
-                {"LocalOpenFolderCommand", new OpenFolderCommand(tuple => throw new NotImplementedException())},
-                {"RemoteOpenFolderCommand", new OpenFolderCommand(tuple => throw new NotImplementedException())},
+                {"LocalOpenFolderCommand", new OpenFolderCommand(tuple => tuple.LocalBuild.Match(branch => branch.GetFresh().Path, Option<string>.None))},
+                {"RemoteOpenFolderCommand", new OpenFolderCommand(tuple =>tuple.RemoteBuild.Match(branch => branch.GetFresh().Path, Option<string>.None))}
             };
         } 
         
         [HttpPost]
-        public IActionResult Execute([FromBody]string command, string branch)
+        public IActionResult Execute(string command, string branch)
         {
             if (!_commands.ContainsKey(command))
                 return Problem("Wrong command name");
