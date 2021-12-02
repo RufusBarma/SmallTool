@@ -18,7 +18,7 @@
           foreach (var branchTuple in Model)
           {
             var id = $"radio_{branchTuple.GetName().IfNone("None")}";
-            <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked>
+            <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked onchange="changeAvailableCommands()">
             <label class="list-group-item py-3" for=@id>
               @branchTuple.GetName().IfNone("Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
               <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
@@ -32,25 +32,25 @@
       <div class="card-header py-3">
         <h4 class="my-0 fw-normal">Действия</h4>
       </div>
-      <div id="buttonsList">
-        <button type="button" class="btn btn-outline-success btn-block" onclick="executeCommand('FetchRunCommand')">
+      <div id="commandList">
+        <button type="button" class="btn btn-outline-success btn-block" name="FetchRunCommand" onclick="executeCommand(this.name)">
           Обновить и запустить DemoGames
         </button>
-        <button type="button" class="btn btn-block" onclick="executeCommand('FetchCommand')">
+        <button type="button" class="btn btn-block" name="FetchCommand" onclick="executeCommand(this.name)">
           Обновить файлы DemoGames без запуска
         </button>
-        <button type="button" class="btn btn-block" onclick="executeCommand('RunCommand')">
+        <button type="button" class="btn btn-block" name="RunCommand" onclick="executeCommand(this.name)">
           Запустить DemoGames
         </button>
-        <button type="button" class="btn btn-block" onclick="executeCommand('LocalOpenFolderCommand')">
+        <button type="button" class="btn btn-block" name="LocalOpenFolderCommand" onclick="executeCommand(this.name)">
           Открыть локальную папку с DemoGames в проводнике
           <span class="d-block small opacity-50">D:\Files</span>
         </button>
-        <button type="button" class="btn btn-block" onclick="executeCommand('RemoteOpenFolderCommand')">
+        <button type="button" class="btn btn-block" name="RemoteOpenFolderCommand" onclick="executeCommand(this.name)">
           Открыть удаленную папку с DemoGames в проводнике
           <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
         </button>
-        <button type="button" class="btn btn-block" onclick="executeCommand('DeleteCommand')">
+        <button type="button" class="btn btn-block" name="DeleteCommand" onclick="executeCommand(this.name)">
           Удалить локально
         </button>
       </div>
@@ -82,5 +82,12 @@
   async function executeCommand(commandName){
     let url = "/Command/Execute?" + $.param({command: commandName, branch: getCheckedRadioName()});
     await fetch(url, {method: 'POST'});
+  }
+  
+  async function changeAvailableCommands(){
+    let buttons = document.getElementById("commandList").querySelectorAll('button');
+    let buttonNames = Array.from(buttons).map(x => x.name);
+    console.log(getCheckedRadioName());
+    console.log(id);
   }
 </script>

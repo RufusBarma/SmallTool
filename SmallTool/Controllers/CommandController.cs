@@ -38,5 +38,18 @@ namespace SmallTool.Controllers
             _commands[command].Execute(branchTuple);
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult IsAvailable(string command, string branch)
+        {
+            if (!_commands.ContainsKey(command))
+                return Problem("Wrong command name");
+            var branchTuple = _branchHandler.BranchTuples.FirstOrDefault(tuple =>
+                    tuple.GetName().Match(name => name == branch, false));
+            if (branchTuple == null)
+                return Problem("Wrong branch name");
+            var isAvailable = _commands[command].CanExecute(branchTuple);
+            return Ok(isAvailable);
+        }
     }
 }
