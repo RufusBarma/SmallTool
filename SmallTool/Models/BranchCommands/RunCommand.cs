@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.IO;
+using ElectronNET.API;
+using MoreLinq;
 using SmallTool.Extensions;
 
 namespace SmallTool.Models.BranchCommands
@@ -16,7 +18,8 @@ namespace SmallTool.Models.BranchCommands
         private void RunBuild(Build build)
         {
             var exePath = Path.Combine(build.Path, "DemoGames", "DemoGames.exe");
-            var process = Process.Start(exePath);
+            //var process = Process.Start(exePath);
+            Electron.WindowManager.BrowserWindows.ForEach(window => window.Hide());
         }
     }
 }

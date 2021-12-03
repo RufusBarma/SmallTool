@@ -69,6 +69,7 @@ namespace SmallTool
                 Width = 1152,
                 Height = 940,
                 Show = false,
+                AutoHideMenuBar = true,
                 WebPreferences = new WebPreferences {NodeIntegration = false, ContextIsolation = false, EnableRemoteModule = true}
             });
 

@@ -20,6 +20,7 @@ namespace SmallTool.Controllers
 
         public IActionResult Index()
         {
+            _branchHandler.RefreshBuilds();
             return View(_branchHandler.BranchTuples);
         }
 
