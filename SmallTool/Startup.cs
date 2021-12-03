@@ -33,6 +33,7 @@ namespace SmallTool
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiddleware<RequestDiagnosticsMiddleware>();
             }
             else
             {
@@ -41,7 +42,6 @@ namespace SmallTool
                 app.UseHsts();
             }
 
-            app.UseMiddleware<RequestDiagnosticsMiddleware>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -76,7 +76,7 @@ namespace SmallTool
             browserWindow.WebContents.OpenDevTools();
             browserWindow.OnClosed += () => Electron.App.Quit();
             browserWindow.OnReadyToShow += () => browserWindow.Show();
-            browserWindow.SetTitle("Electron.NET API Demos");
+            browserWindow.SetTitle("SmallTool");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,9 @@ namespace SmallTool.Controllers
                 {"LocalOpenFolderCommand", new OpenFolderCommand(tuple => tuple.LocalBuild.Match(branch => branch.GetFresh().Path, Option<string>.None))},
                 {"RemoteOpenFolderCommand", new OpenFolderCommand(tuple =>tuple.RemoteBuild.Match(branch => branch.GetFresh().Path, Option<string>.None))}
             };
+            _commands.Add("FetchRunCommand", new ChainCommand(
+                tuple => _commands["FetchCommand"].CanExecute(tuple),
+                    _commands["FetchCommand"], _commands["RunCommand"]));
         } 
         
         [HttpPost]

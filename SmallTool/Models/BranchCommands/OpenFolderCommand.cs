@@ -17,7 +17,7 @@ namespace SmallTool.Models.BranchCommands
         {
             var path = _getPath(tuple).IfNone(() =>
                 throw new ArgumentException("Can't execute for this branch tuple"));
-            Electron.Shell.OpenPathAsync(path);
+            Electron.Shell.ShowItemInFolderAsync(path);
         }
 
         public bool CanExecute(BranchTuple tuple)

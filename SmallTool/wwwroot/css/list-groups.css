@@ -51,7 +51,7 @@
 }
 .list-group-item-check:checked + .list-group-item {
   color: #fff;
-  background-color: var(--blue);
+  background-color: #8fc9ff;
 }
 .list-group-item-check[disabled] + .list-group-item,
 .list-group-item-check:disabled + .list-group-item {

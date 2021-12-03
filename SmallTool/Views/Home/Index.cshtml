@@ -3,62 +3,58 @@
     ViewData["Title"] = "Builds";
 }
 
-@* <div class="text-center" xmlns="http://www.w3.org/1999/html"> *@
-@*     <h1 class="display-4">Welcome</h1> *@
-@*     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
-@* </div> *@
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    <div class="col-sm-4 padding-0">
-      <div class="card-header py-3">
-        <h4 class="my-0 fw-normal">Ветки</h4>
-      </div>
-      <div class="list-group list-group-checkable">
-        @{
-          int i = 0;
-          foreach (var branchTuple in Model)
-          {
-            var id = $"radio_{branchTuple.GetName().IfNone("None")}";
-            <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked onchange="changeAvailableCommands()">
-            <label class="list-group-item py-3" for=@id>
-              @branchTuple.GetName().IfNone("Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
-              <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
-            </label>
-            i++;
-          }
-        }
-      </div>
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  <div class="col-sm-4 padding-0">
+    <div class="card-header py-3">
+      <h4 class="my-0 fw-normal">Ветки</h4>
     </div>
-    <div class="col-sm-6 padding-0">
-      <div class="card-header py-3">
-        <h4 class="my-0 fw-normal">Действия</h4>
-      </div>
-      <div id="commandList">
-        <button type="button" class="btn btn-outline-success btn-block" name="FetchRunCommand" onclick="executeCommand(this.name)">
-          Обновить и запустить DemoGames
-        </button>
-        <button type="button" class="btn btn-block" name="FetchCommand" onclick="executeCommand(this.name)">
-          Обновить файлы DemoGames без запуска
-        </button>
-        <button type="button" class="btn btn-block" name="RunCommand" onclick="executeCommand(this.name)">
-          Запустить DemoGames
-        </button>
-        <button type="button" class="btn btn-block" name="LocalOpenFolderCommand" onclick="executeCommand(this.name)">
-          Открыть локальную папку с DemoGames в проводнике
-          <span class="d-block small opacity-50">D:\Files</span>
-        </button>
-        <button type="button" class="btn btn-block" name="RemoteOpenFolderCommand" onclick="executeCommand(this.name)">
-          Открыть удаленную папку с DemoGames в проводнике
-          <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
-        </button>
-        <button type="button" class="btn btn-block" name="DeleteCommand" onclick="executeCommand(this.name)">
-          Удалить локально
-        </button>
-      </div>
+    <div class="list-group list-group-checkable">
+      @{
+        int i = 0;
+        foreach (var branchTuple in Model)
+        {
+          var id = $"radio_{branchTuple.GetName().IfNone("None")}";
+          <input class="list-group-item-check" type="radio" name="listGroupCheckableRadios" id=@id value="" checked onchange="changeAvailableCommands()">
+          <label class="list-group-item py-3" for=@id>
+            @branchTuple.GetName().IfNone("Ручная сборка или без меты") (@Html.CreateStatus(branchTuple.GetStatus()))
+            <span class="d-block small opacity-50">@branchTuple.LocalBuild.Match(b=>$"Хеш {b.GetFresh().CommitHash} от {b.GetFresh().CreatedTime.Date}", "")</span>
+          </label>
+          i++;
+        }
+      }
     </div>
   </div>
-  <button class="btn btn-primary" onclick="showDialog()">Click me please</button>
-  <button class="btn btn-primary" onclick="clearButtons()">Cclear buttons</button>
-  <button class="btn btn-primary" onclick="getCheckedRadioName()">Log checked</button>
+  <div class="col-sm-6 padding-0">
+    <div class="card-header py-3">
+      <h4 class="my-0 fw-normal">Действия</h4>
+    </div>
+    <div id="commandList">
+      <button type="button" class="btn btn-block" name="FetchRunCommand" onclick="executeCommand(this.name)">
+        Обновить и запустить DemoGames
+      </button>
+      <button type="button" class="btn btn-block" name="FetchCommand" onclick="executeCommand(this.name)">
+        Обновить файлы DemoGames без запуска
+      </button>
+      <button type="button" class="btn btn-block" name="RunCommand" onclick="executeCommand(this.name)">
+        Запустить DemoGames
+      </button>
+      <button type="button" class="btn btn-block" name="LocalOpenFolderCommand" onclick="executeCommand(this.name)">
+        Открыть локальную папку с DemoGames в проводнике
+        <span class="d-block small opacity-50">D:\Files</span>
+      </button>
+      <button type="button" class="btn btn-block" name="RemoteOpenFolderCommand" onclick="executeCommand(this.name)">
+        Открыть удаленную папку с DemoGames в проводнике
+        <span class="d-block small opacity-50">Z:\Магиум\Builds</span>
+      </button>
+      <button type="button" class="btn btn-block btn-outline-danger" name="DeleteCommand" onclick="executeCommand(this.name)">
+        Удалить локально
+      </button>
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary" onclick="showDialog()">Click me please</button>
+<button class="btn btn-primary" onclick="clearButtons()">Cclear buttons</button>
+<button class="btn btn-primary" onclick="getCheckedRadioName()">Log checked</button>
 
 <script>
   async function showDialog(){
@@ -86,8 +82,18 @@
   
   async function changeAvailableCommands(){
     let buttons = document.getElementById("commandList").querySelectorAll('button');
-    let buttonNames = Array.from(buttons).map(x => x.name);
-    console.log(getCheckedRadioName());
-    console.log(id);
+    let branch = getCheckedRadioName();
+    for (const button of buttons) {
+      let url = "/Command/IsAvailable?" + $.param({command: button.name, branch: branch});
+      let response = await fetch(url, {method: 'GET'});
+      if (response.ok)
+      {
+        button.disabled = !(await response.json());
+      }
+      else
+      {
+        button.disabled = false;
+      }
+    }
   }
 </script>
